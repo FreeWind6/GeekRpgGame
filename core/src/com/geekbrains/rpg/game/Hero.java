@@ -18,21 +18,43 @@ public class Hero {
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(texture, position.x - 32, position.y - 32,32,32,64,64,1,1,0,0,0,64,64,false,false);
+        batch.draw(texture, position.x - 32, position.y - 32, 32, 32, 64, 64, 1, 1, 0, 0, 0, 64, 64, false, false);
     }
 
     public void update(float dt) {
-        if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && position.x > 0 + 32) {
             position.x -= speed * dt;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && position.x < 1280 - 32) {
             position.x += speed * dt;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.S)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.S) && position.y > 0 + 32) {
             position.y -= speed * dt;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && position.y < 720 - 32) {
             position.y += speed * dt;
+        }
+
+        if (Gdx.input.isTouched()) {
+            float finishX = Gdx.input.getX();
+            float finishY = 720.0f - Gdx.input.getY();
+
+
+            if (position.x < finishX) {
+                position.x += speed * dt;
+            }
+
+            if (position.x > finishX) {
+                position.x -= speed * dt;
+            }
+
+            if (position.y < finishY) {
+                position.y += speed * dt;
+            }
+
+            if (position.y > finishY) {
+                position.y -= speed * dt;
+            }
         }
     }
 }
