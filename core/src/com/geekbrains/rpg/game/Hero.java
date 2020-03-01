@@ -75,7 +75,7 @@ public class Hero {
             position.set(dst);
         }
 
-        if (projectile.getPosition().dst(apple.getPosition()) < speed * dt * 3) {
+        if (projectile.getPosition().dst(apple.getPosition()) < 15) {
             int x = randomPosition.nextInt(1000) + 30;
             int y = randomPosition.nextInt(600) + 30;
             randomVector.set(x, y);
