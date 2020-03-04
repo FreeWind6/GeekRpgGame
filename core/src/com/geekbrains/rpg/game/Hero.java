@@ -34,6 +34,14 @@ public class Hero {
         this.money = money;
     }
 
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
     public Hero(GameScreen gameScreen) {
         this.money = 0;
         this.gameScreen = gameScreen;

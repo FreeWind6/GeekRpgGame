@@ -15,6 +15,7 @@ public class GameScreen extends AbstractScreen {
     private Hero hero;
     private Monster monster;
     private Random random;
+    private float attackTime;
 
     public Hero getHero() {
         return hero;
@@ -61,8 +62,26 @@ public class GameScreen extends AbstractScreen {
         monster.update(dt);
 
         checkCollisions();
+        hpDecreaseAndIncrease(dt);
 
         projectilesController.update(dt);
+    }
+
+    private void hpDecreaseAndIncrease(float dt) {
+        if (monster.getPosition().dst(hero.getPosition()) < 30 && hero.getHp() != 0) {
+            attackTime += dt;
+            if (attackTime > 0.5f) {
+                attackTime = 0.0f;
+                hero.setHp(hero.getHp() - 1);
+            }
+            //восстановление здоровья
+        } else if (hero.getHp() < 10) {
+            attackTime += dt;
+            if (attackTime > 3.0f) {
+                attackTime = 0.0f;
+                hero.setHp(hero.getHp() + 1);
+            }
+        }
     }
 
     public void checkCollisions() {
