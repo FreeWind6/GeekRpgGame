@@ -1,12 +1,12 @@
 package com.geekbrains.rpg.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import java.util.Random;
 
 public class GameScreen extends AbstractScreen {
     private BitmapFont font32;
@@ -14,6 +14,7 @@ public class GameScreen extends AbstractScreen {
     private ProjectilesController projectilesController;
     private Hero hero;
     private Monster monster;
+    private Random random;
 
     public Hero getHero() {
         return hero;
@@ -29,6 +30,7 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void show() {
+        this.random = new Random();
         this.projectilesController = new ProjectilesController();
         this.hero = new Hero(this);
         this.monster = new Monster(this);
@@ -69,6 +71,13 @@ public class GameScreen extends AbstractScreen {
             if (p.getPosition().dst(monster.getPosition()) < 24) {
                 p.deactivate();
                 monster.takeDamage(1);
+                if (monster.getHp() == 0) {
+                    int x = random.nextInt(500) + 30;
+                    int y = random.nextInt(700) + 30;
+                    monster.getPosition().set(x, y);
+                    monster.setHp(30);
+                    hero.setMoney(hero.getMoney() + 1);
+                }
             }
         }
     }
