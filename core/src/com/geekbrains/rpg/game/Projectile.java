@@ -26,6 +26,10 @@ public class Projectile {
         }
     }
 
+    public Vector2 getPosition() {
+        return position;
+    }
+
     public void deactivate() {
         active = false;
     }

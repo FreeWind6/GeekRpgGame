@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Random;
+
 public class Hero {
     private Projectile projectile;
     private TextureRegion texture;
@@ -21,6 +23,9 @@ public class Hero {
     private int hp;
     private int hpMax;
     private StringBuilder strBuilder;
+    private Apple apple;
+    private Random randomPosition;
+    private Vector2 randomVector;
 
     public Hero(TextureAtlas atlas) {
         this.texture = atlas.findRegion("knight");
@@ -34,6 +39,9 @@ public class Hero {
         this.hpMax = 10;
         this.hp = 10;
         this.strBuilder = new StringBuilder();
+        this.apple = new Apple(atlas);
+        this.randomPosition = new Random();
+        randomVector = new Vector2();
     }
 
     public void render(SpriteBatch batch) {
@@ -41,6 +49,7 @@ public class Hero {
         batch.draw(texture, position.x - 30, position.y - 30, 30, 30, 60, 60, 1, 1, 0);
         batch.draw(textureHp, position.x - 30, position.y + 30, 60 * ((float) hp / hpMax), 12);
         projectile.render(batch);
+        apple.render(batch);
     }
 
     public void renderGUI(SpriteBatch batch, BitmapFont font) {
@@ -64,6 +73,13 @@ public class Hero {
             position.mulAdd(tmp, dt);
         } else {
             position.set(dst);
+        }
+
+        if (projectile.getPosition().dst(apple.getPosition()) < 15) {
+            int x = randomPosition.nextInt(1000) + 30;
+            int y = randomPosition.nextInt(600) + 30;
+            randomVector.set(x, y);
+            apple.setPosition(randomVector);
         }
     }
 }
