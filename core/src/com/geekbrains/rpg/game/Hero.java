@@ -57,6 +57,10 @@ public class Hero {
         this.strBuilder = new StringBuilder();
     }
 
+    public int getHpMax() {
+        return hpMax;
+    }
+
     public void render(SpriteBatch batch) {
         batch.draw(texturePointer, dst.x - 30, dst.y - 30, 30, 30, 60, 60, 0.5f, 0.5f, lifetime * 90.0f);
         batch.draw(texture, position.x - 30, position.y - 30, 30, 30, 60, 60, 1, 1, 0);

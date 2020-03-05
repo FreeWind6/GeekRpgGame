@@ -75,7 +75,7 @@ public class GameScreen extends AbstractScreen {
                 hero.setHp(hero.getHp() - 1);
             }
             //восстановление здоровья
-        } else if (hero.getHp() < 10) {
+        } else if (hero.getHp() < hero.getHpMax()) {
             attackTime += dt;
             if (attackTime > 3.0f) {
                 attackTime = 0.0f;
@@ -94,7 +94,7 @@ public class GameScreen extends AbstractScreen {
                     int x = random.nextInt(500) + 30;
                     int y = random.nextInt(700) + 30;
                     monster.getPosition().set(x, y);
-                    monster.setHp(30);
+                    monster.setHp(monster.getHpMax());
                     hero.setMoney(hero.getMoney() + 1);
                 }
             }

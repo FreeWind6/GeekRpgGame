@@ -44,6 +44,10 @@ public class Monster {
         this.hp = hp;
     }
 
+    public int getHpMax() {
+        return hpMax;
+    }
+
     public void setPosition(Vector2 position) {
         this.position = position;
     }
