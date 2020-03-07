@@ -4,14 +4,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.geekbrains.rpg.game.screens.utils.Assets;
 
-public class Monster extends GameCharacter {
+public class Golem extends GameCharacter {
     private float attackTime;
     private boolean isActive;
 
-    public Monster(GameController gc) {
+    public Golem(GameController gc) {
         super(gc, 20, 100.0f);
-        this.texture = Assets.getInstance().getAtlas().findRegion("knight");
-        this.changePosition(800.0f, 300.0f);
+        this.texture = Assets.getInstance().getAtlas().findRegion("golem");
+        this.changePosition(200.0f, 150.0f);
         this.isActive = false;
     }
 
@@ -21,13 +21,15 @@ public class Monster extends GameCharacter {
         this.isActive = true;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
     @Override
     public void render(SpriteBatch batch, BitmapFont font) {
         //понимаю что не очень хороший подход, но не понял как сделать через контроллер, надеюсь обьясните на лекции
         if (!isActive) {
-            batch.setColor(0.5f, 0.5f, 0.5f, 0.7f);
             batch.draw(texture, position.x - 30, position.y - 30, 30, 30, 60, 60, 1, 1, 0);
-            batch.setColor(1, 1, 1, 1);
             batch.draw(textureHp, position.x - 30, position.y + 30, 60 * ((float) hp / hpMax), 12);
         }
     }

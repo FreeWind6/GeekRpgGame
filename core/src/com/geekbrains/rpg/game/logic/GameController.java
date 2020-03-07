@@ -7,15 +7,25 @@ public class GameController {
     private ProjectilesController projectilesController;
     private Map map;
     private Hero hero;
-    private Monster monster;
+    private DarkKnight darkKnight;
+    private Witch witch;
+    private Golem golem;
     private Vector2 tmp, tmp2;
 
     public Hero getHero() {
         return hero;
     }
 
-    public Monster getMonster() {
-        return monster;
+    public DarkKnight getDarkKnight() {
+        return darkKnight;
+    }
+
+    public Witch getWitch() {
+        return witch;
+    }
+
+    public Golem getGolem() {
+        return golem;
     }
 
     public Map getMap() {
@@ -29,7 +39,9 @@ public class GameController {
     public GameController() {
         this.projectilesController = new ProjectilesController();
         this.hero = new Hero(this);
-        this.monster = new Monster(this);
+        this.darkKnight = new DarkKnight(this);
+        this.witch = new Witch(this);
+        this.golem = new Golem(this);
         this.map = new Map();
         this.tmp = new Vector2(0, 0);
         this.tmp2 = new Vector2(0, 0);
@@ -37,15 +49,19 @@ public class GameController {
 
     public void update(float dt) {
         hero.update(dt);
-        monster.update(dt);
+        darkKnight.update(dt);
+        witch.update(dt);
+        golem.update(dt);
 
         checkCollisions();
-        collideUnits(hero, monster);
+        collideUnits(hero, darkKnight, darkKnight.isActive());
+        collideUnits(hero, witch, witch.isActive());
+        collideUnits(hero, golem, golem.isActive());
         projectilesController.update(dt);
     }
 
-    public void collideUnits(GameCharacter u1, GameCharacter u2) {
-        if (u1.getArea().overlaps(u2.getArea())) {
+    public void collideUnits(GameCharacter u1, GameCharacter u2, boolean isActive) {
+        if (u1.getArea().overlaps(u2.getArea()) && !isActive) {
             tmp.set(u1.getArea().x, u1.getArea().y);
             tmp.sub(u2.getArea().x, u2.getArea().y);
             float halfInterLen = ((u1.getArea().radius + u2.getArea().radius) - tmp.len()) / 2.0f;
@@ -70,9 +86,23 @@ public class GameController {
                 p.deactivate();
                 continue;
             }
-            if (p.getPosition().dst(monster.getPosition()) < 24) {
+            if (p.getPosition().dst(darkKnight.getPosition()) < 24) {
                 p.deactivate();
-                if (monster.takeDamage(1)) {
+                if (darkKnight.takeDamage(1)) {
+                    hero.addCoins(MathUtils.random(1, 10));
+                }
+            }
+
+            if (p.getPosition().dst(witch.getPosition()) < 24) {
+                p.deactivate();
+                if (witch.takeDamage(1)) {
+                    hero.addCoins(MathUtils.random(1, 10));
+                }
+            }
+
+            if (p.getPosition().dst(golem.getPosition()) < 24) {
+                p.deactivate();
+                if (golem.takeDamage(1)) {
                     hero.addCoins(MathUtils.random(1, 10));
                 }
             }
