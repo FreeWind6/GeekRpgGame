@@ -2,14 +2,18 @@ package com.geekbrains.rpg.game.logic;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.geekbrains.rpg.game.screens.utils.Assets;
 
 public class DarkKnight extends GameCharacter {
     private float attackTime;
     private boolean isActive;
+    private float x = MathUtils.random(30, 1280 - 30);
+    private float y = MathUtils.random(30, 720 - 30);
+    private float time;
 
     public DarkKnight(GameController gc) {
-        super(gc, 20, 100.0f);
+        super(gc, 25, 100.0f);
         this.texture = Assets.getInstance().getAtlas().findRegion("knight");
         this.changePosition(800.0f, 300.0f);
         this.isActive = false;
@@ -44,9 +48,18 @@ public class DarkKnight extends GameCharacter {
                 attackTime += dt;
                 if (attackTime > 0.3f) {
                     attackTime = 0.0f;
-                    gc.getHero().takeDamage(1);
+                    gc.getHero().takeDamage(2);
                 }
             }
+        } else if (!isActive) {
+            time += dt;
+            if (time > 8.0f) {
+                time = 0.0f;
+                x = MathUtils.random(30, 1280 - 30);
+                y = MathUtils.random(30, 720 - 30);
+            }
+            super.update(dt);
+            dst.set(x, y);
         }
     }
 }
