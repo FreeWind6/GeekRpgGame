@@ -29,13 +29,15 @@ public class Monster extends GameCharacter {
     }
 
     public void update(float dt) {
-        super.update(dt);
-        dst.set(gc.getHero().getPosition());
-        if (this.position.dst(gc.getHero().getPosition()) < 40) {
-            attackTime += dt;
-            if(attackTime > 0.3f) {
-                attackTime = 0.0f;
-                gc.getHero().takeDamage(1);
+        if (position.dst(gc.getHero().getPosition()) < 300) {
+            super.update(dt);
+            dst.set(gc.getHero().getPosition());
+            if (this.position.dst(gc.getHero().getPosition()) < 40) {
+                attackTime += dt;
+                if (attackTime > 0.3f) {
+                    attackTime = 0.0f;
+                    gc.getHero().takeDamage(1);
+                }
             }
         }
     }
