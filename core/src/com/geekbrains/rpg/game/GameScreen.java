@@ -6,16 +6,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import java.util.Random;
-
 public class GameScreen extends AbstractScreen {
     private BitmapFont font32;
     private TextureRegion textureGrass;
     private ProjectilesController projectilesController;
     private Hero hero;
     private Monster monster;
-    private Random random;
-    private float attackTime;
 
     public Hero getHero() {
         return hero;
@@ -31,7 +27,6 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void show() {
-        this.random = new Random();
         this.projectilesController = new ProjectilesController();
         this.hero = new Hero(this);
         this.monster = new Monster(this);
@@ -62,26 +57,8 @@ public class GameScreen extends AbstractScreen {
         monster.update(dt);
 
         checkCollisions();
-        hpDecreaseAndIncrease(dt);
 
         projectilesController.update(dt);
-    }
-
-    private void hpDecreaseAndIncrease(float dt) {
-        if (monster.getPosition().dst(hero.getPosition()) < 30 && hero.getHp() != 0) {
-            attackTime += dt;
-            if (attackTime > 0.5f) {
-                attackTime = 0.0f;
-                hero.setHp(hero.getHp() - 1);
-            }
-            //восстановление здоровья
-        } else if (hero.getHp() < hero.getHpMax()) {
-            attackTime += dt;
-            if (attackTime > 3.0f) {
-                attackTime = 0.0f;
-                hero.setHp(hero.getHp() + 1);
-            }
-        }
     }
 
     public void checkCollisions() {
@@ -90,13 +67,6 @@ public class GameScreen extends AbstractScreen {
             if (p.getPosition().dst(monster.getPosition()) < 24) {
                 p.deactivate();
                 monster.takeDamage(1);
-                if (monster.getHp() == 0) {
-                    int x = random.nextInt(500) + 30;
-                    int y = random.nextInt(700) + 30;
-                    monster.getPosition().set(x, y);
-                    monster.setHp(monster.getHpMax());
-                    hero.setMoney(hero.getMoney() + 1);
-                }
             }
         }
     }

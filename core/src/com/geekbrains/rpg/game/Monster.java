@@ -1,5 +1,8 @@
 package com.geekbrains.rpg.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -34,22 +37,6 @@ public class Monster {
 
     public void takeDamage(int amount) {
         hp -= amount;
-    }
-
-    public int getHp() {
-        return hp;
-    }
-
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
-
-    public int getHpMax() {
-        return hpMax;
-    }
-
-    public void setPosition(Vector2 position) {
-        this.position = position;
     }
 
     public void render(SpriteBatch batch) {
