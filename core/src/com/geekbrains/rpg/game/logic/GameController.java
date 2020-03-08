@@ -61,7 +61,7 @@ public class GameController {
     }
 
     public void collideUnits(GameCharacter u1, GameCharacter u2, boolean isActive) {
-        if (u1.getArea().overlaps(u2.getArea()) && !isActive) {
+        if (u1.getArea().overlaps(u2.getArea()) && isActive) {
             tmp.set(u1.getArea().x, u1.getArea().y);
             tmp.sub(u2.getArea().x, u2.getArea().y);
             float halfInterLen = ((u1.getArea().radius + u2.getArea().radius) - tmp.len()) / 2.0f;
@@ -86,21 +86,21 @@ public class GameController {
                 p.deactivate();
                 continue;
             }
-            if (p.getPosition().dst(darkKnight.getPosition()) < 24) {
+            if (p.getPosition().dst(darkKnight.getPosition()) < 24 && darkKnight.isActive()) {
                 p.deactivate();
                 if (darkKnight.takeDamage(1)) {
                     hero.addCoins(MathUtils.random(1, 10));
                 }
             }
 
-            if (p.getPosition().dst(witch.getPosition()) < 24) {
+            if (p.getPosition().dst(witch.getPosition()) < 24 && witch.isActive()) {
                 p.deactivate();
                 if (witch.takeDamage(1)) {
                     hero.addCoins(MathUtils.random(1, 10));
                 }
             }
 
-            if (p.getPosition().dst(golem.getPosition()) < 24) {
+            if (p.getPosition().dst(golem.getPosition()) < 24 && golem.isActive()) {
                 p.deactivate();
                 if (golem.takeDamage(1)) {
                     hero.addCoins(MathUtils.random(1, 10));

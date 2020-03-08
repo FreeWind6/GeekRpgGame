@@ -16,13 +16,13 @@ public class Witch extends GameCharacter {
         super(gc, 15, 120.0f);
         this.texture = Assets.getInstance().getAtlas().findRegion("witch");
         this.changePosition(500.0f, 400.0f);
-        this.isActive = false;
+        this.isActive = true;
     }
 
     @Override
     public void onDeath() {
         this.hp = this.hpMax;
-        this.isActive = true;
+        this.isActive = false;
     }
 
     public boolean isActive() {
@@ -32,14 +32,14 @@ public class Witch extends GameCharacter {
     @Override
     public void render(SpriteBatch batch, BitmapFont font) {
         //понимаю что не очень хороший подход, но не понял как сделать через контроллер, надеюсь обьясните на лекции
-        if (!isActive) {
+        if (isActive) {
             batch.draw(texture, position.x - 30, position.y - 30, 30, 30, 60, 60, 1, 1, 0);
             batch.draw(textureHp, position.x - 30, position.y + 30, 60 * ((float) hp / hpMax), 12);
         }
     }
 
     public void update(float dt) {
-        if (position.dst(gc.getHero().getPosition()) < 300 && !isActive) {
+        if (position.dst(gc.getHero().getPosition()) < 300 && isActive) {
             super.update(dt);
             dst.set(gc.getHero().getPosition());
             if (this.position.dst(gc.getHero().getPosition()) < 40) {
@@ -49,7 +49,7 @@ public class Witch extends GameCharacter {
                     gc.getHero().takeDamage(1);
                 }
             }
-        } else if (!isActive) {
+        } else if (isActive) {
             time += dt;
             if (time > 8.0f) {
                 time = 0.0f;
