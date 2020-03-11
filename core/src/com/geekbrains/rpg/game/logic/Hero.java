@@ -17,7 +17,7 @@ public class Hero extends GameCharacter {
     }
 
     public Hero(GameController gc) {
-        super(gc, 10, 300.0f);
+        super(gc, 15, 300.0f);
         this.texture = Assets.getInstance().getAtlas().findRegion("knight");
         this.texturePointer = Assets.getInstance().getAtlas().findRegion("pointer");
         this.changePosition(100.0f, 100.0f);
