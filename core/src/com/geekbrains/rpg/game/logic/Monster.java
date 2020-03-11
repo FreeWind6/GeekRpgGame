@@ -19,6 +19,7 @@ public class Monster extends GameCharacter implements Poolable {
         this.dst.set(this.position);
         this.visionRadius = 160.0f;
         this.type = Type.RANGED;
+        this.rangedTypeWeapon = RangedTypeWeapon.BOW;
         this.attackRadius = 150.0f;
     }
 
