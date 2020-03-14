@@ -2,7 +2,6 @@ package com.geekbrains.rpg.game.logic;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.geekbrains.rpg.game.logic.utils.MapElement;
 import com.geekbrains.rpg.game.screens.utils.Assets;
@@ -16,12 +15,22 @@ public abstract class GameCharacter implements MapElement {
         MELEE, RANGED
     }
 
+    public enum MeleeTypeWeapon {
+        AXE, MACE
+    }
+
+    public enum RangedTypeWeapon {
+        BOW, CROSSBOW
+    }
+
     protected GameController gc;
 
     protected TextureRegion texture;
     protected TextureRegion textureHp;
 
     protected Type type;
+    protected MeleeTypeWeapon meleeTypeWeapon;
+    protected RangedTypeWeapon rangedTypeWeapon;
     protected State state;
     protected float stateTimer;
     protected float attackRadius;
@@ -95,15 +104,53 @@ public abstract class GameCharacter implements MapElement {
         if (state == State.MOVE || state == State.RETREAT || (state == State.ATTACK && this.position.dst(target.getPosition()) > attackRadius - 5)) {
             moveToDst(dt);
         }
+
+        if (rangedTypeWeapon == RangedTypeWeapon.CROSSBOW) {
+            visionRadius = 110;
+            attackRadius = 100;
+        }
+        if (rangedTypeWeapon == RangedTypeWeapon.BOW) {
+            visionRadius = 210;
+            attackRadius = 200;
+        }
+
         if (state == State.ATTACK && this.position.dst(target.getPosition()) < attackRadius) {
-            attackTime += dt;
+
+            if (rangedTypeWeapon == RangedTypeWeapon.CROSSBOW) {
+                attackTime += dt * 0.5f;
+            }
+
+            if (rangedTypeWeapon == RangedTypeWeapon.BOW) {
+                attackTime += dt;
+            }
+
+            if (meleeTypeWeapon == MeleeTypeWeapon.AXE) {
+                attackTime += dt * 0.3f;
+            }
+
+            if (meleeTypeWeapon == MeleeTypeWeapon.MACE) {
+                attackTime += dt * 0.2f;
+            }
+
             if (attackTime > 0.3f) {
                 attackTime = 0.0f;
                 if (type == Type.MELEE) {
-                    target.takeDamage(this, 1);
+                    if (meleeTypeWeapon == MeleeTypeWeapon.AXE) {
+                        target.takeDamage(this, 3);
+                    }
+                    if (meleeTypeWeapon == MeleeTypeWeapon.MACE) {
+                        target.takeDamage(this, 4);
+                    }
                 }
                 if (type == Type.RANGED) {
-                    gc.getProjectilesController().setup(this, position.x, position.y, target.getPosition().x, target.getPosition().y);
+                    if (rangedTypeWeapon == RangedTypeWeapon.CROSSBOW) {
+                        gc.getProjectilesController().setup(this, position.x, position.y, target.getPosition().x, target.getPosition().y);
+                        target.takeDamage(this, 10);
+                    }
+                    if (rangedTypeWeapon == RangedTypeWeapon.BOW) {
+                        gc.getProjectilesController().setup(this, position.x, position.y, target.getPosition().x, target.getPosition().y);
+                        target.takeDamage(this, 1);
+                    }
                 }
             }
         }

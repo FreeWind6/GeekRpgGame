@@ -24,6 +24,7 @@ public class Hero extends GameCharacter {
         this.dst.set(position);
         this.strBuilder = new StringBuilder();
         this.type = Type.RANGED;
+        this.rangedTypeWeapon = RangedTypeWeapon.CROSSBOW;
         this.attackRadius = 150.0f;
     }
 
