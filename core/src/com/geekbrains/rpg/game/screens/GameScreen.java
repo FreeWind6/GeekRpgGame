@@ -2,7 +2,7 @@ package com.geekbrains.rpg.game.screens;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.geekbrains.rpg.game.logic.GameController;
-import com.geekbrains.rpg.game.logic.WorldRenderer;
+import com.geekbrains.rpg.game.logic.*;
 
 public class GameScreen extends AbstractScreen {
     private GameController gc;
