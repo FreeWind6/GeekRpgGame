@@ -138,7 +138,7 @@ public abstract class GameCharacter implements MapElement {
     }
 
     public void update(float dt) {
-        if (experience > 1000) {
+        if (experience >= 1000) {
             experience = 0;
             lvl++;
         }
@@ -202,7 +202,7 @@ public abstract class GameCharacter implements MapElement {
             onDeath();
             return true;
         }
-        attacker.experience += 100;
+        attacker.experience += MathUtils.random(250);
         return false;
     }
 
