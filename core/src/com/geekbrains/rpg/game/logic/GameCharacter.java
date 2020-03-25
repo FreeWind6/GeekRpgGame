@@ -46,6 +46,9 @@ public abstract class GameCharacter implements MapElement {
     protected int hp, hpMax;
     protected int coins;
 
+    protected int experience;
+    protected int lvl;
+
     protected Weapon weapon;
 
     public void addCoins(int amount) {
@@ -111,7 +114,7 @@ public abstract class GameCharacter implements MapElement {
         return hp > 0;
     }
 
-    public GameCharacter(GameController gc, int hpMax, float speed) {
+    public GameCharacter(GameController gc, int hpMax, float speed, int experience, int lvl) {
         this.gc = gc;
         this.textureHp = Assets.getInstance().getAtlas().findRegion("hp");
         this.tmp = new Vector2(0.0f, 0.0f);
@@ -126,6 +129,8 @@ public abstract class GameCharacter implements MapElement {
         this.stateTimer = 1.0f;
         this.timePerFrame = 0.2f;
         this.target = null;
+        this.experience = experience;
+        this.lvl = lvl;
     }
 
     public int getCurrentFrameIndex() {
@@ -133,6 +138,10 @@ public abstract class GameCharacter implements MapElement {
     }
 
     public void update(float dt) {
+        if (experience > 1000) {
+            experience = 0;
+            lvl++;
+        }
         lifetime += dt;
         damageTimer -= dt;
         if (damageTimer < 0.0f) {
@@ -193,9 +202,7 @@ public abstract class GameCharacter implements MapElement {
             onDeath();
             return true;
         }
-        if (attacker == gc.getHero()) {
-            gc.getHero().setExperience(gc.getHero().getExperience() + MathUtils.random(500));
-        }
+        attacker.experience += 100;
         return false;
     }
 

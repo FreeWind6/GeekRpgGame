@@ -12,19 +12,15 @@ import com.geekbrains.rpg.game.screens.utils.Assets;
 public class Hero extends GameCharacter {
     private StringBuilder strBuilder;
     private Sound sound;
-    private int experience;
-    private int lvl;
 
     public Hero(GameController gc) {
-        super(gc, 500, 120.0f);
+        super(gc, 500, 120.0f, 0, 1);
         this.textures = new TextureRegion(Assets.getInstance().getAtlas().findRegion("knight")).split(60, 60);
         this.changePosition(100.0f, 100.0f);
         this.dst.set(position);
         this.strBuilder = new StringBuilder();
         this.weapon = gc.getWeaponsController().getOneFromAnyPrototype();
         this.sound = Gdx.audio.newSound(Gdx.files.internal("audio/explosion.wav"));
-        this.experience = 0;
-        this.lvl = 1;
     }
 
     public void renderGUI(SpriteBatch batch, BitmapFont font) {
@@ -36,11 +32,6 @@ public class Hero extends GameCharacter {
         strBuilder.append("LVL: ").append(lvl).append("\n");
         strBuilder.append("Weapon: ").append(weapon.getTitle()).append(" [").append(weapon.getMinDamage()).append("-").append(weapon.getMaxDamage()).append("]\n");
         font.draw(batch, strBuilder, 10, 710);
-
-        if (experience > 1000) {
-            experience = 0;
-            lvl++;
-        }
     }
 
     @Override
@@ -50,18 +41,6 @@ public class Hero extends GameCharacter {
         hp = hpMax;
         lvl = 1;
         experience = 0;
-    }
-
-    public int getExperience() {
-        return experience;
-    }
-
-    public void setExperience(int experience) {
-        this.experience = experience;
-    }
-
-    public int getLvl() {
-        return lvl;
     }
 
     @Override
