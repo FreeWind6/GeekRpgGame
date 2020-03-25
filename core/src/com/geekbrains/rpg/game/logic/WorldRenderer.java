@@ -117,6 +117,7 @@ public class WorldRenderer {
             }
         }
         gc.getSpecialEffectsController().render(batch);
+        gc.getSpecialEffectsHPController().render(batch, font14);
         batch.end();
         frameBuffer.end();
 

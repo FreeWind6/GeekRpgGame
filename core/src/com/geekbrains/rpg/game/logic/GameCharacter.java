@@ -48,6 +48,7 @@ public abstract class GameCharacter implements MapElement {
 
     protected Weapon weapon;
 
+
     public void addCoins(int amount) {
         coins += amount;
     }
@@ -125,6 +126,7 @@ public abstract class GameCharacter implements MapElement {
         this.stateTimer = 1.0f;
         this.timePerFrame = 0.2f;
         this.target = null;
+
     }
 
     public int getCurrentFrameIndex() {
@@ -137,6 +139,7 @@ public abstract class GameCharacter implements MapElement {
         if (damageTimer < 0.0f) {
             damageTimer = 0.0f;
         }
+
         if (state == State.ATTACK) {
             dst.set(target.getPosition());
         }
@@ -184,6 +187,7 @@ public abstract class GameCharacter implements MapElement {
     public boolean takeDamage(GameCharacter attacker, int amount) {
         lastAttacker = attacker;
         hp -= amount;
+        gc.getSpecialEffectsHPController().setup(position.x, position.y, amount);
         damageTimer += 0.4f;
         if (damageTimer > 1.0f) {
             damageTimer = 1.0f;
@@ -241,5 +245,7 @@ public abstract class GameCharacter implements MapElement {
         batch.draw(textureHp, position.x - 30 + MathUtils.random(-shock, shock), position.y + 30 + MathUtils.random(-shock, shock), 60 * ((float) hp / hpMax), 10);
         batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
         font.draw(batch, String.valueOf(hp), position.x - 30 + MathUtils.random(-shock, shock), position.y + 42 + MathUtils.random(-shock, shock), 60, 1, false);
+
+
     }
 }
