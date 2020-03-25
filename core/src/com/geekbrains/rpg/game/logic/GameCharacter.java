@@ -193,6 +193,9 @@ public abstract class GameCharacter implements MapElement {
             onDeath();
             return true;
         }
+        if (attacker == gc.getHero()) {
+            gc.getHero().setExperience(gc.getHero().getExperience() + MathUtils.random(500));
+        }
         return false;
     }
 
