@@ -1,8 +1,6 @@
 package com.geekbrains.rpg.game.logic;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.geekbrains.rpg.game.logic.utils.Poolable;
@@ -41,7 +39,8 @@ public class Monster extends GameCharacter implements Poolable {
     @Override
     public boolean takeDamage(GameCharacter attacker, int amount) {
         gc.getInfoController().setupAnyAmount(position.x, position.y, Color.WHITE, "-", amount);
-        return super.takeDamage(attacker, amount);
+        gc.getHero().setExperience(gc.getHero().getExperience() + MathUtils.random(500));
+        return super.takeDamage(attacker, amount * gc.getHero().getLvl());
     }
 
     public void update(float dt) {

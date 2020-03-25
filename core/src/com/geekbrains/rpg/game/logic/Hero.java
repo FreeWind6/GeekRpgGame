@@ -12,6 +12,8 @@ import com.geekbrains.rpg.game.screens.utils.Assets;
 public class Hero extends GameCharacter {
     private StringBuilder strBuilder;
     private Sound sound;
+    private int experience;
+    private int lvl;
 
     public Hero(GameController gc) {
         super(gc, 500, 120.0f);
@@ -21,6 +23,8 @@ public class Hero extends GameCharacter {
         this.strBuilder = new StringBuilder();
         this.weapon = gc.getWeaponsController().getOneFromAnyPrototype();
         this.sound = Gdx.audio.newSound(Gdx.files.internal("audio/explosion.wav"));
+        this.experience = 0;
+        this.lvl = 1;
     }
 
     public void renderGUI(SpriteBatch batch, BitmapFont font) {
@@ -28,8 +32,15 @@ public class Hero extends GameCharacter {
         strBuilder.append("Class: ").append("Knight").append("\n");
         strBuilder.append("HP: ").append(hp).append(" / ").append(hpMax).append("\n");
         strBuilder.append("Coins: ").append(coins).append("\n");
+        strBuilder.append("Experience: ").append(experience).append("\n");
+        strBuilder.append("LVL: ").append(lvl).append("\n");
         strBuilder.append("Weapon: ").append(weapon.getTitle()).append(" [").append(weapon.getMinDamage()).append("-").append(weapon.getMaxDamage()).append("]\n");
         font.draw(batch, strBuilder, 10, 710);
+
+        if (experience > 1000) {
+            experience = 0;
+            lvl++;
+        }
     }
 
     @Override
@@ -37,6 +48,20 @@ public class Hero extends GameCharacter {
         super.onDeath();
         coins = 0;
         hp = hpMax;
+        lvl = 1;
+        experience = 0;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    public int getLvl() {
+        return lvl;
     }
 
     @Override
