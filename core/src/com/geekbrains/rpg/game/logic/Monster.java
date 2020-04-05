@@ -1,8 +1,6 @@
 package com.geekbrains.rpg.game.logic;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.geekbrains.rpg.game.logic.utils.Poolable;
@@ -15,7 +13,7 @@ public class Monster extends GameCharacter implements Poolable {
     }
 
     public Monster(GameController gc) {
-        super(gc, 20, 80.0f);
+        super(gc, 20, 80.0f, 0, 1);
         this.textures = new TextureRegion(Assets.getInstance().getAtlas().findRegion("dwarf")).split(60, 60);
         this.changePosition(800.0f, 300.0f);
         this.dst.set(this.position);
@@ -41,7 +39,7 @@ public class Monster extends GameCharacter implements Poolable {
     @Override
     public boolean takeDamage(GameCharacter attacker, int amount) {
         gc.getInfoController().setupAnyAmount(position.x, position.y, Color.WHITE, "-", amount);
-        return super.takeDamage(attacker, amount);
+        return super.takeDamage(attacker, amount * gc.getHero().lvl);
     }
 
     public void update(float dt) {

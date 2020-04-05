@@ -14,7 +14,7 @@ public class Hero extends GameCharacter {
     private Sound sound;
 
     public Hero(GameController gc) {
-        super(gc, 500, 120.0f);
+        super(gc, 500, 120.0f, 0, 1);
         this.textures = new TextureRegion(Assets.getInstance().getAtlas().findRegion("knight")).split(60, 60);
         this.changePosition(100.0f, 100.0f);
         this.dst.set(position);
@@ -28,6 +28,8 @@ public class Hero extends GameCharacter {
         strBuilder.append("Class: ").append("Knight").append("\n");
         strBuilder.append("HP: ").append(hp).append(" / ").append(hpMax).append("\n");
         strBuilder.append("Coins: ").append(coins).append("\n");
+        strBuilder.append("Experience: ").append(experience).append("\n");
+        strBuilder.append("LVL: ").append(lvl).append("\n");
         strBuilder.append("Weapon: ").append(weapon.getTitle()).append(" [").append(weapon.getMinDamage()).append("-").append(weapon.getMaxDamage()).append("]\n");
         font.draw(batch, strBuilder, 10, 710);
     }
@@ -37,6 +39,8 @@ public class Hero extends GameCharacter {
         super.onDeath();
         coins = 0;
         hp = hpMax;
+        lvl = 1;
+        experience = 0;
     }
 
     @Override
