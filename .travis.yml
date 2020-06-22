@@ -1,6 +1,10 @@
-dist: trusty
+#dist: trusty
 language: java
-sudo: false
+#sudo: false
 jdk:
   - oraclejdk8
-script: gradlew assemble check
+
+before_script:
+- chmod a+x gradlew
+
+sccript: ./gradlew build
